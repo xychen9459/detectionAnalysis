@@ -52,4 +52,28 @@ result.apn = mean(pn(istp))*r(end);
 missed = zeros(npos-sum(label==1),1);
 result.ap_stderr = std([p(istp(:)) ; missed])/sqrt(npos);
 result.apn_stderr = std([pn(istp(:)) ; missed])/sqrt(npos);
-    
+
+%--------------------------------------------------------------------------
+% (cxy) my additional modification about ap and apn
+%--------------------------------------------------------------------------
+% calculate precision and normalized precision without interpolation
+result.ap_no_interp = mean(result.p(istp))*r(end);
+result.apn_no_interp = mean(result.pn(istp))*r(end);
+
+% calculate precision and normalized precision using method in VOCcode
+ap = 0;
+apn = 0;
+for t = 0:0.1:1
+    p = max(result.p(r>=t));
+    pn = max(result.pn(r>=t));
+    if isempty(p)
+        p = 0;
+    end
+    if isempty(pn)
+        pn = 0;
+    end
+    ap = ap + p/11;
+    apn = apn + pn/11;
+end
+result.ap_voc = ap;
+result.apn_voc = apn;
