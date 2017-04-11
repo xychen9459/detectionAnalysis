@@ -1,5 +1,13 @@
 function [rec, objcount] = PASreadAllRecords(recname, settype)
 
+% [rec, objcount] = PASreadAllRecords(recname, settype)
+%
+% read annotations in PASCAL dataset
+%
+% rec: a struct array recording annotations, numel(rec) = numel(images)
+% objcount: a matrix recording amount of objects for each class, 
+%           dim = {numel(images) * numel(classes)}
+
 VOCinit;
 
 if ~exist('settype', 'var') || isempty(settype)
@@ -7,9 +15,11 @@ if ~exist('settype', 'var') || isempty(settype)
 end
 
 if strcmp(settype, 'main')
+  % /path/to/VOCdevkit/VOC2007/ImageSets/Main/<recname>.txt
   ids = textread(sprintf(VOCopts.imgsetpath, recname), '%s');
   %fid = fopen(sprintf(VOCopts.imgsetpath,recname));
 elseif strcmp(settype, 'seg')
+  % /path/to/VOCdevkit/VOC2007/ImageSets/Segmentation/<recname>.txt
   ids = textread(sprintf(VOCopts.seg.imgsetpath, recname), '%s');
   %fid = fopen(sprintf(VOCopts.seg.imgsetpath,recname));
 end
