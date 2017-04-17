@@ -3,3 +3,7 @@ detections
 
 # Analysis results
 results
+
+# MATLAB autosave files
+*.m~
+*.asv

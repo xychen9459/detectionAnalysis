@@ -73,7 +73,7 @@ result.onlybg = averagePrecisionNormalized(conf, det.label, npos, normalizedCoun
 
 % Record false positives with other (non-similar) objects
 isother = zeros(size(result.isbg));
-for k = setdiff(1:numel(dataset_params.objnames_all), [similar_ind objind])  
+for k = setdiff(1:numel(dataset_params.objnames_all), [similar_ind;objind])  
   other_name = dataset_params.objnames_all{k};
   detk = matchDetectionsWithGroundTruth(dataset, dataset_params, other_name, ann, det, 'weak');      
   isother = isother | (~result.iscorrect & ~result.issim & ~result.isloc & detk.label>=0);
